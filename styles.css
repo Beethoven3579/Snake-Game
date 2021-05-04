@@ -15,6 +15,11 @@ button {
     padding: 12px;
     margin-top: 15px;
     cursor: pointer;
+    background: rgb(253, 37, 37);
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: #ccc;
+    font-weight: bold;
 }
 canvas {
     margin-top: 30px;
