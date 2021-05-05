@@ -2,15 +2,15 @@ let canvas;
 let canvasContext;
 canvas = document.getElementById('gameCanvas');
 canvasContext = canvas.getContext('2d');
-document.addEventListener('keydown', handleKeyDown, false);
 
 let rightPressed = false;
 let leftPressed = false;
 let upPressed = false;
 let downPressed = false;
+document.addEventListener('keydown', handleKeyDown, false);
 
-let snakeHeadX = 30;
-let snakeHeadY = 30;
+let snakeHeadX = 300;
+let snakeHeadY = 300;
 
 let appleX = Math.floor(Math.random() * canvas.width);
 let appleY = Math.floor(Math.random() * canvas.height);; 
@@ -20,7 +20,7 @@ document.getElementById('start').addEventListener('click', () => {
     setInterval(() => {
         drawEverything();
         detectWallCollisions();
-    }, 400);
+    }, 30);
  
 })
 
@@ -41,27 +41,26 @@ function drawSnake() {
     document.addEventListener('keydown', handleKeyDown, false);
 
     if(rightPressed) {
-        snakeHeadX += 20;
+        snakeHeadX += 4;
     }
-    else if(leftPressed) {
-        snakeHeadX -= 20;
+    if(leftPressed) {
+        snakeHeadX -= 4;
     }
     if(downPressed) {
-        snakeHeadY += 20;
+        snakeHeadY += 4;
     }
-    else if(upPressed) {
-        snakeHeadY -= 20;
+    if(upPressed) {
+        snakeHeadY -= 4;
     }
 }
+
 function detectWallCollisions() {
-    if (snakeHeadX > canvas.width || snakeHeadX < 0
-        || snakeHeadY > canvas.height || snakeHeadY <= 0) {
-        alert('Game Over');
+    if (snakeHeadX >= canvas.width -15  || snakeHeadX <=  -5
+        || snakeHeadY >= canvas.height -15 || snakeHeadY <= -5) {
         playerScore = 0;
-        rightPressed = false;
-        leftPressed = false;
-        upPressed = false;
-        downPressed = false;
+        document.location.reload();
+        clearInterval();
+        alert('Game Over')
     }
 }
 
@@ -72,7 +71,7 @@ function handleKeyDown(e) {
         upPressed = false;
         downPressed = false;
     }
-    else if(e.keyCode == 37) {
+    if(e.keyCode == 37) {
         leftPressed = true;
         rightPressed = false;
         upPressed = false;
@@ -84,7 +83,7 @@ function handleKeyDown(e) {
         leftPressed = false;
         upPressed = false;
     }
-    else if(e.keyCode == 38) {
+    if(e.keyCode == 38) {
         upPressed = true;
         rightPressed = false;
         leftPressed = false;
