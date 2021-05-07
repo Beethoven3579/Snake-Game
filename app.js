@@ -9,17 +9,23 @@ let upPressed = false;
 let downPressed = false;
 document.addEventListener('keydown', handleKeyDown, false);
 
-let snakeHeadX = 300;
-let snakeHeadY = 300;
+const appleWidth = 20;
+const appleHeight = 20;
 
-let appleX = Math.floor(Math.random() * canvas.width);
-let appleY = Math.floor(Math.random() * canvas.height);; 
+let snakeHead = {radius: 10, x: 300, y: 300};
+let apple = {radius: 10, 
+            x: Math.floor(Math.random() * canvas.width),
+            y: Math.floor(Math.random() * canvas.height)};
+
+let playerScore = 0;
+let highScore = 0;
+let userScore = document.getElementById("player-score")
 
 document.getElementById('start').addEventListener('click', () => {
     document.querySelector('#start').disabled = true;
     setInterval(() => {
-        drawEverything();
-        detectWallCollisions();
+         drawEverything();
+         detectCollisions();
     }, 30);
  
 })
@@ -33,34 +39,58 @@ function drawEverything () {
 
 function drawApple () {
     canvasContext.fillStyle = 'red';
-    canvasContext.fillRect(appleX, appleY, 20, 20)
+    canvasContext.beginPath();
+    canvasContext.arc(apple.x, apple.y, apple.radius, 0, Math.PI*2, true);
+    canvasContext.fill();
 }
 function drawSnake() {
     canvasContext.fillStyle = 'green';
-    canvasContext.fillRect(snakeHeadX, snakeHeadY, 20, 20)
+    canvasContext.beginPath();
+    canvasContext.arc(snakeHead.x, snakeHead.y, snakeHead.radius,  
+        0, Math.PI*2, true);
+        canvasContext.fill();
     document.addEventListener('keydown', handleKeyDown, false);
 
     if(rightPressed) {
-        snakeHeadX += 4;
+        snakeHead.x += 4;
     }
     if(leftPressed) {
-        snakeHeadX -= 4;
+        snakeHead.x -= 4;
     }
     if(downPressed) {
-        snakeHeadY += 4;
+        snakeHead.y += 4;
     }
     if(upPressed) {
-        snakeHeadY -= 4;
+        snakeHead.y -= 4;
     }
 }
 
-function detectWallCollisions() {
-    if (snakeHeadX >= canvas.width -15  || snakeHeadX <=  -5
-        || snakeHeadY >= canvas.height -15 || snakeHeadY <= -5) {
+function detectCollisions() {
+   
+    if (snakeHead.x >= canvas.width  || snakeHead.x == 0
+        || snakeHead.y >= canvas.height || snakeHead.y == 0) {
         playerScore = 0;
         document.location.reload();
         clearInterval();
         alert('Game Over')
+    }
+    snakeHitsApple();
+}
+
+function snakeHitsApple() {
+    let deltaX = snakeHead.x - apple.x;
+    let deltaY = snakeHead.y - apple.y;
+    let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    if (distance < snakeHead.radius + apple.radius) {
+        playerScore += 1;
+        apple.x = Math.floor(Math.random() * canvas.width);
+        apple.y = Math.floor(Math.random() * canvas.height);
+        console.log("Player Score :", playerScore)
+        userScore.textContent = `Player Score: ${playerScore}`;
+        // if (userScore > highScore){
+        //     highScore += userScore;
+        //     console.log("High Score: ", highScore)
+        // }
     }
 }
 
