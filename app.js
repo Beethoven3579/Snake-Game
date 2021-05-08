@@ -12,14 +12,17 @@ document.addEventListener('keydown', handleKeyDown, false);
 const appleWidth = 20;
 const appleHeight = 20;
 
-let snakeHead = {radius: 10, x: 300, y: 300};
+let snakeHead = {radius: 10, 
+                x: 300, 
+                y: 300};
 let apple = {radius: 10, 
-            x: Math.floor(Math.random() * canvas.width),
-            y: Math.floor(Math.random() * canvas.height)};
+            x: Math.floor(Math.random() * canvas.width -1 ),
+            y: Math.floor(Math.random() * canvas.height -1)};
 
 let playerScore = 0;
 let highScore = 0;
-let userScore = document.getElementById("player-score")
+
+
 
 document.getElementById('start').addEventListener('click', () => {
     document.querySelector('#start').disabled = true;
@@ -46,9 +49,11 @@ function drawApple () {
 function drawSnake() {
     canvasContext.fillStyle = 'green';
     canvasContext.beginPath();
-    canvasContext.arc(snakeHead.x, snakeHead.y, snakeHead.radius,  
-        0, Math.PI*2, true);
-        canvasContext.fill();
+    canvasContext.arc(snakeHead.x, 
+                snakeHead.y, 
+                snakeHead.radius,  
+                0, Math.PI*2, true);
+    canvasContext.fill();
     document.addEventListener('keydown', handleKeyDown, false);
 
     if(rightPressed) {
@@ -74,23 +79,27 @@ function detectCollisions() {
         clearInterval();
         alert('Game Over')
     }
-    snakeHitsApple();
+    snakeEatsApple();
 }
 
-function snakeHitsApple() {
+function snakeEatsApple() {
     let deltaX = snakeHead.x - apple.x;
     let deltaY = snakeHead.y - apple.y;
     let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    let userScore = document.getElementById("player-score");
+    let bestScore = document.getElementById("high-score");
+    
     if (distance < snakeHead.radius + apple.radius) {
         playerScore += 1;
-        apple.x = Math.floor(Math.random() * canvas.width);
-        apple.y = Math.floor(Math.random() * canvas.height);
+        apple.x = Math.floor(Math.random() * canvas.width -1);
+        apple.y = Math.floor(Math.random() * canvas.height -1); 
         console.log("Player Score :", playerScore)
         userScore.textContent = `Player Score: ${playerScore}`;
-        // if (userScore > highScore){
-        //     highScore += userScore;
-        //     console.log("High Score: ", highScore)
-        // }
+    }
+    if (playerScore > highScore) {
+        highScore = playerScore;
+        bestScore.textContent = `High Score: ${highScore}`;
     }
 }
 
