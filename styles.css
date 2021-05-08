@@ -21,6 +21,16 @@ button {
     color: #ccc;
     font-weight: bold;
 }
+#instructions {
+    margin-top: 30px;
+    text-align: center;
+    width: 800px;
+    height: 600px;
+    color:rgb(32, 88, 6);
+    background: none;
+    position: absolute;
+    text-align: center;
+}
 canvas {
     margin-top: 30px;
     text-align: center;

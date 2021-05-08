@@ -2,6 +2,8 @@ let canvas;
 let canvasContext;
 canvas = document.getElementById('gameCanvas');
 canvasContext = canvas.getContext('2d');
+canvasContext.fillStyle = 'black';
+canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
 let rightPressed = false;
 let leftPressed = false;
@@ -9,20 +11,21 @@ let upPressed = false;
 let downPressed = false;
 document.addEventListener('keydown', handleKeyDown, false);
 
-const appleWidth = 20;
-const appleHeight = 20;
-
 let snakeHead = {radius: 10, 
                 x: 300, 
                 y: 300};
+
 let apple = {radius: 10, 
-            x: Math.floor(Math.random() * canvas.width -1 ),
-            y: Math.floor(Math.random() * canvas.height -1)};
+            x: Math.floor(Math.random() * canvas.width),
+            y: Math.floor(Math.random() * canvas.height)};
+
+let tailPiece = {radius: snakeHead.radius,
+                x: snakeHead.x - 10,
+                y: snakeHead.y - 10};
+
 
 let playerScore = 0;
 let highScore = 0;
-
-
 
 document.getElementById('start').addEventListener('click', () => {
     document.querySelector('#start').disabled = true;
