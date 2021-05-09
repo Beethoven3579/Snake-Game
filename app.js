@@ -11,18 +11,13 @@ let upPressed = false;
 let downPressed = false;
 document.addEventListener('keydown', handleKeyDown, false);
 
-let snakeHead = {radius: 10, 
-                x: 300, 
-                y: 300};
+let snake = {radius: 10, x: 300, y: 300};
+                // { radius: 10, x: 280, y: 300},
+                // { radius: 10, x: 260, y: 300};       
 
 let apple = {radius: 10, 
-            x: Math.floor(Math.random() * canvas.width),
-            y: Math.floor(Math.random() * canvas.height)};
-
-let tailPiece = {radius: snakeHead.radius,
-                x: snakeHead.x - 10,
-                y: snakeHead.y - 10};
-
+            x: Math.floor(Math.random() * canvas.width - 5),
+            y: Math.floor(Math.random() * canvas.height - 5)};
 
 let playerScore = 0;
 let highScore = 0;
@@ -48,55 +43,61 @@ function drawApple () {
     canvasContext.beginPath();
     canvasContext.arc(apple.x, apple.y, apple.radius, 0, Math.PI*2, true);
     canvasContext.fill();
+
 }
+
 function drawSnake() {
+    document.addEventListener('keydown', handleKeyDown, false);
     canvasContext.fillStyle = 'green';
     canvasContext.beginPath();
-    canvasContext.arc(snakeHead.x, 
-                snakeHead.y, 
-                snakeHead.radius,  
-                0, Math.PI*2, true);
+    canvasContext.arc(snake.x, snake.y, snake.radius, 0, Math.PI*2, true);
+    // canvasContext.arc(snake[1].x, snake[1].y, snake[1].radius, 0, Math.PI*2, true);
+    // canvasContext.arc(snake[2].x, snake[2].y, snake[2].radius, 0, Math.PI*2, true);
     canvasContext.fill();
-    document.addEventListener('keydown', handleKeyDown, false);
 
+    
     if(rightPressed) {
-        snakeHead.x += 4;
+        snake.x += 4;
+        
     }
     if(leftPressed) {
-        snakeHead.x -= 4;
+        snake.x -= 4;
+        
     }
     if(downPressed) {
-        snakeHead.y += 4;
+        snake.y += 4;
+        
     }
     if(upPressed) {
-        snakeHead.y -= 4;
+        snake.y -= 4;
+       
     }
 }
 
 function detectCollisions() {
-   
-    if (snakeHead.x >= canvas.width  || snakeHead.x == 0
-        || snakeHead.y >= canvas.height || snakeHead.y == 0) {
+        if (snake.x >= canvas.width  || snake.x == 0
+        || snake.y >= canvas.height || snake.y == 0) {
         playerScore = 0;
         document.location.reload();
         clearInterval();
-        alert('Game Over')
+        alert('Game Over')  
+       
     }
     snakeEatsApple();
 }
 
 function snakeEatsApple() {
-    let deltaX = snakeHead.x - apple.x;
-    let deltaY = snakeHead.y - apple.y;
+    let deltaX = snake.x - apple.x;
+    let deltaY = snake.y - apple.y;
     let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     let userScore = document.getElementById("player-score");
     let bestScore = document.getElementById("high-score");
     
-    if (distance < snakeHead.radius + apple.radius) {
+    if (distance < snake.radius + apple.radius) {
         playerScore += 1;
-        apple.x = Math.floor(Math.random() * canvas.width -1);
-        apple.y = Math.floor(Math.random() * canvas.height -1); 
+        apple.x = Math.floor(Math.random() * canvas.width + 5);
+        apple.y = Math.floor(Math.random() * canvas.height + 5); 
         console.log("Player Score :", playerScore)
         userScore.textContent = `Player Score: ${playerScore}`;
     }
@@ -104,6 +105,7 @@ function snakeEatsApple() {
         highScore = playerScore;
         bestScore.textContent = `High Score: ${highScore}`;
     }
+
 }
 
 function handleKeyDown(e) {
