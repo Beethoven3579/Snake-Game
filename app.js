@@ -13,7 +13,7 @@ document.addEventListener('keydown', handleKeyDown, false);
 
 let snake = {radius: 10, x: 300, y: 300};
                 // { radius: 10, x: 280, y: 300},
-                // { radius: 10, x: 260, y: 300};       
+                //  { radius: 10, x: 260, y: 300};       
 
 let apple = {radius: 10, 
             x: Math.floor(Math.random() * canvas.width - 5),
@@ -55,7 +55,11 @@ function drawSnake() {
     // canvasContext.arc(snake[2].x, snake[2].y, snake[2].radius, 0, Math.PI*2, true);
     canvasContext.fill();
 
-    
+    // const snakeCopy = snake.map(snakePiece => 
+    //     `X: ${snakePiece.x} Y: ${snakePiece.y}`
+    //      )
+    //      console.log(snakeCopy);
+   
     if(rightPressed) {
         snake.x += 4;
         
@@ -134,3 +138,4 @@ function handleKeyDown(e) {
         downPressed = false;
     }
 }
+
