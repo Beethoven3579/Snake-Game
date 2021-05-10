@@ -11,9 +11,9 @@ let upPressed = false;
 let downPressed = false;
 document.addEventListener('keydown', handleKeyDown, false);
 
-let snake = {radius: 10, x: 300, y: 300};
-                // { radius: 10, x: 280, y: 300},
-                //  { radius: 10, x: 260, y: 300};       
+let snake = [{radius: 10, x: 300, y: 300},
+                 { radius: 10, x: 280, y: 300},
+                  { radius: 10, x: 260, y: 300}];       
 
 let apple = {radius: 10, 
             x: Math.floor(Math.random() * canvas.width - 5),
@@ -50,32 +50,37 @@ function drawSnake() {
     document.addEventListener('keydown', handleKeyDown, false);
     canvasContext.fillStyle = 'green';
     canvasContext.beginPath();
-    canvasContext.arc(snake.x, snake.y, snake.radius, 0, Math.PI*2, true);
-    // canvasContext.arc(snake[1].x, snake[1].y, snake[1].radius, 0, Math.PI*2, true);
-    // canvasContext.arc(snake[2].x, snake[2].y, snake[2].radius, 0, Math.PI*2, true);
+    canvasContext.arc(snake[0].x, snake[0].y, snake[0].radius, 0, Math.PI*2, true);
+    canvasContext.arc(snake[1].x, snake[1].y, snake[1].radius, 0, Math.PI*2, true);
+    canvasContext.arc(snake[2].x, snake[2].y, snake[2].radius, 0, Math.PI*2, true);
     canvasContext.fill();
 
-    // const snakeCopy = snake.map(snakePiece => 
-    //     `X: ${snakePiece.x} Y: ${snakePiece.y}`
-    //      )
-    //      console.log(snakeCopy);
+    const snakeCopy = snake.map(snakePiece => 
+        `X: ${snakePiece.x} Y: ${snakePiece.y}`)
+       console.log(snakeCopy)
    
+    for (let i = 0; i < snake.length; i ++){
+
     if(rightPressed) {
-        snake.x += 4;
+        snake[i].x += 4;
         
     }
     if(leftPressed) {
-        snake.x -= 4;
+        snake[i].x -= 4;
         
     }
     if(downPressed) {
-        snake.y += 4;
+        snake[i].y += 4;
         
     }
     if(upPressed) {
-        snake.y -= 4;
+        snake[i].y -= 4;
        
     }
+  }
+  for (let i = 1; i < snake.length; i ++){
+      snake[0] = snakeCopy[i -1]
+  }
 }
 
 function detectCollisions() {
