@@ -27,7 +27,7 @@ document.getElementById('start').addEventListener('click', () => {
     setInterval(() => {
          drawEverything();
          detectCollisions();
-    }, 30);
+    }, 300);
  
 })
 
@@ -55,55 +55,52 @@ function drawSnake() {
     canvasContext.arc(snake[2].x, snake[2].y, snake[2].radius, 0, Math.PI*2, true);
     canvasContext.fill();
 
-    const snakeCopy = snake.map(snakePiece => 
-        `X: ${snakePiece.x} Y: ${snakePiece.y}`)
-       console.log(snakeCopy)
-   
-    for (let i = 0; i < snake.length; i ++){
-
+    for (let i = snake.length - 1; i > 0; i--) {
+        const parent = snake[i - 1];
+        snake[i].x = parent.x;
+        snake[i].y = parent.y;
+      }
+  
     if(rightPressed) {
-        snake[i].x += 4;
+        snake[0].x += 20;
         
     }
     if(leftPressed) {
-        snake[i].x -= 4;
+        snake[0].x -= 20;
         
     }
     if(downPressed) {
-        snake[i].y += 4;
+        snake[0].y += 20;
         
     }
     if(upPressed) {
-        snake[i].y -= 4;
+        snake[0].y -= 20;
        
     }
-  }
-  for (let i = 1; i < snake.length; i ++){
-      snake[0] = snakeCopy[i -1]
-  }
+  
 }
 
 function detectCollisions() {
-        if (snake.x >= canvas.width  || snake.x == 0
-        || snake.y >= canvas.height || snake.y == 0) {
+    
+        if (snake[0].x >= canvas.width  || snake[0].x == 0
+        || snake[0].y >= canvas.height || snake[0].y == 0) {
         playerScore = 0;
         document.location.reload();
         clearInterval();
         alert('Game Over')  
-       
-    }
+        }
     snakeEatsApple();
 }
 
 function snakeEatsApple() {
-    let deltaX = snake.x - apple.x;
-    let deltaY = snake.y - apple.y;
+    let deltaX = snake[0].x - apple.x;
+    let deltaY = snake[0].y - apple.y;
     let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     let userScore = document.getElementById("player-score");
     let bestScore = document.getElementById("high-score");
     
-    if (distance < snake.radius + apple.radius) {
+    if (distance < snake[0].radius + apple.radius) {
         playerScore += 1;
         apple.x = Math.floor(Math.random() * canvas.width + 5);
         apple.y = Math.floor(Math.random() * canvas.height + 5); 
