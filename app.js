@@ -100,7 +100,6 @@ function snakeEatsApple() {
 
     let userScore = document.getElementById("player-score");
     let bestScore = document.getElementById("high-score");
-    
     if (distance < snake[0].radius + apple.radius) {
         playerScore += 1;
         snake.push({radius: 10, x: apple.x, y: apple.y});
@@ -114,6 +113,23 @@ function snakeEatsApple() {
         bestScore.textContent = `High Score: ${highScore}`;
     }
 }
+function snakeEatsItself() {
+    
+    for (let i = 0; i < snake.length; i ++) {
+        let deltaX = snake[0].x - snake[i].x;
+        let deltaY = snake[0].y - snake[i].y;
+        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        let snakeBody = snake.slice(1); 
+        for (let j = 0; j < snakeBody.length; j++){
+    if (distance < snake[0].radius + snakeBody[j].radius) {
+        playerScore = 0;
+        document.location.reload();
+        clearInterval();
+        alert('Game Over')  
+      }
+    }
+  }
+} 
 
 function moveSnake() {
 
