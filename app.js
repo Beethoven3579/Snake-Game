@@ -25,9 +25,10 @@ let highScore = 0;
 document.getElementById('start').addEventListener('click', () => {
     document.querySelector('#start').disabled = true;
     setInterval(() => {
+         moveSnake();
          drawEverything();
          detectCollisions();
-    }, 50);
+    }, 100);
  
 })
 
@@ -38,14 +39,6 @@ function drawEverything () {
     drawApple();
 }
 
-function drawApple () {
-    canvasContext.fillStyle = 'red';
-    canvasContext.beginPath();
-    canvasContext.arc(apple.x, apple.y, apple.radius, 0, Math.PI*2, true);
-    canvasContext.fill();
-
-}
-
 function drawSnake() {
     document.addEventListener('keydown', handleKeyDown, false);
     canvasContext.fillStyle = 'green';
@@ -54,14 +47,76 @@ function drawSnake() {
     canvasContext.arc(snake[1].x, snake[1].y, snake[1].radius, 0, Math.PI*2, true);
     canvasContext.arc(snake[2].x, snake[2].y, snake[2].radius, 0, Math.PI*2, true);
     canvasContext.fill();
+    for (let i = 0; i < snake.length; i++){
+        canvasContext.fillStyle = 'green';
+        canvasContext.beginPath();
+        canvasContext.arc(snake[i].x, snake[i].y, snake[i].radius, 0, Math.PI*2, true);
+        canvasContext.fill();
+    }
 
 
     for (let i = snake.length - 1; i > 0; i--) {
         const parent = snake[i - 1];
         snake[i].x = parent.x;
         snake[i].y = parent.y;
+
       }
+}
+
+function drawApple () {
+    canvasContext.fillStyle = 'red';
+    canvasContext.beginPath();
+    canvasContext.arc(apple.x, apple.y, apple.radius, 0, Math.PI*2, true);
+    canvasContext.fill();
+
+}
+
+function detectCollisions() {
+
+// let snakeBody = snake.slice(1); 
+//     for (let i = 0; i < snake.length; i ++) {
+//         if (snake[0].x == snakeBody[i].x || snake[0].y == snakeBody[i].x) {
+//             playerScore = 0;
+//             document.location.reload();
+//             clearInterval();
+//             alert('Game Over')  
+//         }
+//     }
     
+        if (snake[0].x >= canvas.width  || snake[0].x == 0
+        || snake[0].y >= canvas.height  || snake[0].y == 0 ) {
+            playerScore = 0;
+            document.location.reload();
+            clearInterval();
+            alert('Game Over')  
+        }
+    snakeEatsApple();
+}
+
+function snakeEatsApple() {
+    let deltaX = snake[0].x - apple.x;
+    let deltaY = snake[0].y - apple.y;
+    let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    let userScore = document.getElementById("player-score");
+    let bestScore = document.getElementById("high-score");
+    
+    if (distance < snake[0].radius + apple.radius) {
+        playerScore += 1;
+        snake.push({radius: 10, x: apple.x, y: apple.y});
+        apple.x = Math.floor(Math.random() * canvas.width - 20);
+        apple.y = Math.floor(Math.random() * canvas.height - 20); 
+        userScore.textContent = `Player Score: ${playerScore}`;
+    
+    }
+    if (playerScore > highScore) {
+        highScore = playerScore;
+        bestScore.textContent = `High Score: ${highScore}`;
+    }
+}
+
+function moveSnake() {
+
     if(rightPressed) {
         snake[0].x += 20;
         
@@ -77,40 +132,6 @@ function drawSnake() {
     if(upPressed) {
         snake[0].y -= 20;
        
-    }
-  
-}
-
-function detectCollisions() {
-    
-        if (snake[0].x >= canvas.width  || snake[0].x == 0
-        || snake[0].y >= canvas.height  || snake[0].y == 0) {
-        playerScore = 0;
-        document.location.reload();
-        clearInterval();
-        alert('Game Over')  
-        }
-    snakeEatsApple();
-}
-
-function snakeEatsApple() {
-    let deltaX = snake[0].x - apple.x;
-    let deltaY = snake[0].y - apple.y;
-    let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-    let userScore = document.getElementById("player-score");
-    let bestScore = document.getElementById("high-score");
-    
-    if (distance < snake[0].radius + apple.radius) {
-        playerScore += 1;
-        apple.x = Math.floor(Math.random() * canvas.width - 20);
-        apple.y = Math.floor(Math.random() * canvas.height - 20); 
-        userScore.textContent = `Player Score: ${playerScore}`;
-        // snake.push({radius: 10, x: apple.x, y: apple.y});
-    }
-    if (playerScore > highScore) {
-        highScore = playerScore;
-        bestScore.textContent = `High Score: ${highScore}`;
     }
 }
 
