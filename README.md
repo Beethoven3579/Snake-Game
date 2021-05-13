@@ -1,6 +1,6 @@
 # Classic Snake Game
 
-### This is a Snake-Game application based on the classic arcvade game built using HTML CSS and Vanilla JavaScript
+### This is a Snake-Game application based on the classic arcade game built using HTML CSS and Vanilla JavaScript
  
 #### You can test the game [here](https://beethoven3579.github.io/Snake-Game/) 
 
