@@ -14,6 +14,7 @@ h1 {
 button {
     padding: 12px;
     margin-top: 15px;
+    margin-bottom: 15px;
     cursor: pointer;
     background: rgb(253, 37, 37);
     border: 1px solid #555;
@@ -22,10 +23,10 @@ button {
     font-weight: bold;
 }
 #instructions {
-    margin-top: 30px;
+    margin-top: 100px;
+    margin-left: 30px;
+    font-size: 30px;
     text-align: center;
-    width: 800px;
-    height: 600px;
     color:rgb(32, 88, 6);
     background: none;
     position: absolute;
