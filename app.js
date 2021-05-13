@@ -53,15 +53,6 @@ function drawSnake() {
         canvasContext.arc(snake[i].x, snake[i].y, snake[i].radius, 0, Math.PI*2, true);
         canvasContext.fill();
     }
-
-
-    for (let i = snake.length - 1; i > 0; i--) {
-        if (rightPressed || leftPressed || downPressed || upPressed){
-        const parent = snake[i - 1];
-        snake[i].x = parent.x;
-        snake[i].y = parent.y;
-        }
-    }
 }
 
 function drawApple () {
@@ -73,8 +64,6 @@ function drawApple () {
 }
 
 function detectCollisions() {
-
-    
     const bodyCheck = () => {
         for (let i = 1; i < snake.length; i++) {
           if (
@@ -86,20 +75,20 @@ function detectCollisions() {
         }
       };
 
-      if (bodyCheck === true) {
+    if (bodyCheck() == true) {
         playerScore = 0;
         document.location.reload();
         clearInterval();
         alert('Game Over')  
-      }
+    }
 
-        if (snake[0].x >= canvas.width  || snake[0].x == 0
-        || snake[0].y >= canvas.height  || snake[0].y == 0 ) {
+    if (snake[0].x == canvas.width  || snake[0].x == 0
+        || snake[0].y == canvas.height  || snake[0].y == 0 ) {
             playerScore = 0;
             document.location.reload();
             clearInterval();
             alert('Game Over')  
-        }
+    }
     snakeEatsApple();
 }
 
@@ -113,8 +102,8 @@ function snakeEatsApple() {
     if (distance < snake[0].radius + apple.radius) {
         playerScore += 1;
         snake.push({radius: 10, x: apple.x, y: apple.y});
-        apple.x = Math.floor(Math.random() * canvas.width - 20);
-        apple.y = Math.floor(Math.random() * canvas.height - 20); 
+        apple.x = Math.floor(Math.random() * (canvas.width - apple.radius));
+        apple.y = Math.floor(Math.random() * (canvas.height - apple.radius)); 
         userScore.textContent = `Player Score: ${playerScore}`;
     
     }
@@ -125,6 +114,14 @@ function snakeEatsApple() {
 }
 
 function moveSnake() {
+
+    for (let i = snake.length - 1; i > 0; i--) {
+        if (rightPressed || leftPressed || downPressed || upPressed){
+        const parent = snake[i - 1];
+        snake[i].x = parent.x;
+        snake[i].y = parent.y;
+        }
+    }    
 
     if(rightPressed) {
         snake[0].x += 20;
@@ -140,7 +137,6 @@ function moveSnake() {
     }
     if(upPressed) {
         snake[0].y -= 20;
-       
     }
 }
 
