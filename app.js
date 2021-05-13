@@ -56,11 +56,12 @@ function drawSnake() {
 
 
     for (let i = snake.length - 1; i > 0; i--) {
+        if (rightPressed || leftPressed || downPressed || upPressed){
         const parent = snake[i - 1];
         snake[i].x = parent.x;
         snake[i].y = parent.y;
-
-      }
+        }
+    }
 }
 
 function drawApple () {
@@ -73,16 +74,25 @@ function drawApple () {
 
 function detectCollisions() {
 
-// let snakeBody = snake.slice(1); 
-//     for (let i = 0; i < snake.length; i ++) {
-//         if (snake[0].x == snakeBody[i].x || snake[0].y == snakeBody[i].x) {
-//             playerScore = 0;
-//             document.location.reload();
-//             clearInterval();
-//             alert('Game Over')  
-//         }
-//     }
     
+    const bodyCheck = () => {
+        for (let i = 1; i < snake.length; i++) {
+          if (
+            snake[0].x === snake[i].x &&
+            snake[0].y === snake[i].y
+          ) {
+            return true;
+          }
+        }
+      };
+
+      if (bodyCheck === true) {
+        playerScore = 0;
+        document.location.reload();
+        clearInterval();
+        alert('Game Over')  
+      }
+
         if (snake[0].x >= canvas.width  || snake[0].x == 0
         || snake[0].y >= canvas.height  || snake[0].y == 0 ) {
             playerScore = 0;
@@ -113,23 +123,6 @@ function snakeEatsApple() {
         bestScore.textContent = `High Score: ${highScore}`;
     }
 }
-function snakeEatsItself() {
-    
-    for (let i = 0; i < snake.length; i ++) {
-        let deltaX = snake[0].x - snake[i].x;
-        let deltaY = snake[0].y - snake[i].y;
-        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        let snakeBody = snake.slice(1); 
-        for (let j = 0; j < snakeBody.length; j++){
-    if (distance < snake[0].radius + snakeBody[j].radius) {
-        playerScore = 0;
-        document.location.reload();
-        clearInterval();
-        alert('Game Over')  
-      }
-    }
-  }
-} 
 
 function moveSnake() {
 
