@@ -8,7 +8,7 @@
 
 ## Project Summary
 
-This was the most challenging app I have learned to build so far. I learned how to draw on HTML canvas with Javascript. I learned how to make shapes move on HTML canvas. I learned how to test for collisions and impliment conditions based on those collision. Lastly, I learned how to use setInterval() in order to make object move smoothly on the screen. 
+This was the most challenging app I have learned to build so far. I learned how to draw on HTML canvas with Javascript. I learned how to make shapes move on HTML canvas. I learned how to test for collisions and impliment conditions based on those collisions. Lastly, I learned how to use setInterval() in order to make objects move smoothly on the screen. 
 
 ## About Me
 
