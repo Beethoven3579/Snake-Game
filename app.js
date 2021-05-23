@@ -30,7 +30,6 @@ document.getElementById('start').addEventListener('click', () => {
          drawEverything();
          detectCollisions();
     }, 100);
- 
 })
 
 function drawEverything () {
